@@ -384,6 +384,16 @@ canvas {
   font-weight: 800;
 }
 
+.hello h4 {
+  color: #e3b062;
+  font-weight: 300;
+  font-size: 1.2rem;
+}
+
+.hello h4 span {
+  font-weight: 800;
+}
+
 .btn-nav {
   width: 40%;
   color: white;

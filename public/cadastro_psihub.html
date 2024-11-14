@@ -26,10 +26,7 @@
 
       <ul class="navbar">
         <li>
-          <a href="psihub_comofunciona.html">Sobre nós</a>
-        </li>
-        <li>
-          <a href="psihub_comofunciona.html">Como funciona?</a>
+          <a href="psihub_comofunciona.html">Nossa História</a>
         </li>
         <li>
           <a href="login.html">Feed PsiHub</a>
@@ -82,8 +79,8 @@
             <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
           </div>
           <div class="campo">
-            <span>CPF</span>
-            <input id="cpf_input" type="number" placeholder="CPF" />
+            <span>CRP</span>
+            <input id="crp_input" type="number" placeholder="CRP" />
           </div>
           <div class="campo">
             <span>Senha:</span>
@@ -149,7 +146,7 @@
     // Agora vá para o método fetch logo abaixo
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
-    var cpfVar = cpf_input.value;
+    var crpVar = crp_input.value;
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
     var codigoVar = codigo_input.value;
@@ -186,11 +183,11 @@
       confirmacao_senha_input.style.border = "3px solid #f70000"
     }
 
-    if (cpfVar.length == 11) {
-      cpf_input.value.border = "3px solid #08a708"
+    if (crpVar.length == 11) {
+      crp_input.value.border = "3px solid #08a708"
     } else {
       correto = false
-      cpf_input.style.border = "3px solid #f70000"
+      crp_input.style.border = "3px solid #f70000"
     }
 
 
@@ -199,7 +196,7 @@
     if (
       nomeVar == "" ||
       emailVar == "" ||
-      cpfVar == "" ||
+      crpVar == "" ||
       senhaVar == "" ||
       confirmacaoSenhaVar == "" ||
       codigoVar == ""
@@ -240,7 +237,7 @@
         // Agora vá para o arquivo routes/usuario.js
         nomeServer: nomeVar,
         emailServer: emailVar,
-        cpfServer: cpfVar,
+        crpServer: crpVar,
         senhaServer: senhaVar,
         idEmpresaVincularServer: idEmpresaVincular
       }),

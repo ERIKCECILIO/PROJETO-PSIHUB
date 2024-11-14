@@ -71,11 +71,6 @@ body {
 }
 
 /* BANNER */
-
-/* .banner::before: Este pseudo-elemento cobre toda a área do .banner, tem a mesma imagem de fundo e é desfocado com filter: blur(8px). Ele fica atrás do conteúdo (z-index: -1).
-.banner .container e .banner .container p: O conteúdo continua no .container, que está posicionado com relative para garantir que fique sobre o pseudo-elemento desfocado.
-Assim, o texto dentro de .banner .container p ficará claro e nítido, posicionado sobre o fundo desfocado. */
-
 .banner {
   position: relative;
   height: var(--tamanho-banner);

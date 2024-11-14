@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Avisos</title>
+    <title>PsiHub | Feed</title>
 
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
@@ -26,11 +26,11 @@
 
         <div class="header-left">
 
-            <h1>AquaTech</h1>
+            <h1>PsiHub</h1>
 
             <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-                <h4><span id="crp">crp</span></h4>
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3><br>
+                <h4><span id="crp_usuario">crp</span></h4>
             </div>
 
             <div class="btn-nav-white">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="btn-nav">
-                <h3>Mural de Avisos</h3>
+                <h3>PsiFeed</h3>
             </div>
 
             <div class="btn-logout" onclick="limparSessao()">
@@ -62,7 +62,7 @@
                 <div id="alerta">
                 </div>
                 <div class="container">
-                    <h1>Publicar um aviso</h1>
+                    <h1>Publicar um PsiFeed</h1>
                     <div class="div-form">
                         <form id="form_postagem" method="post" onsubmit="return publicar()">
                             <label>
@@ -73,16 +73,16 @@
                             <br>
                             <br>
                             <label>
-                                Descrição (máximo de 250 caracteres):
+                                Descrição (máximo de 500 caracteres):
                                 <br>
-                                <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
+                                <textarea name="descricao" id="textarea_descricao" maxlength="500" rows="10"></textarea>
                             </label>
                             <br>
                             <br>
                             <button>Enviar</button>
                         </form>
                     </div>
-                    <h1>Mural de Avisos</h1>
+                    <h1>PsiHub | Feed</h1>
                     <div class="div-results">
                         <div id="feed_container" class="feed-container">
                         </div>
@@ -102,6 +102,7 @@
 <script>
     
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    crp_usuario.innerHTML = sessionStorage.CRP_USUARIO;
 
     function limparFormulario() {
         document.getElementById("form_postagem").reset();
