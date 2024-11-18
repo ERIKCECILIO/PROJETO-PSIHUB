@@ -10,36 +10,34 @@ CREATE DATABASE psihub;
 
 USE psihub;
 
-CREATE TABLE psicologo (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	crp CHAR(14),
-	codigo_ativacao VARCHAR(50)
-);
-
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
+    tipoUsuario char(3),
 	nome VARCHAR(50),
+    crp CHAR(6),
 	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+	senha VARCHAR(50)
 );
+
+INSERT INTO usuario values(
+1, 'p', 'erik', '123456', 'erik@gmail.com', 'senha@123');
+
+SELECT * FROM usuario;
 
 CREATE TABLE aviso (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	titulo VARCHAR(100),
 	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+	fkPsiUsuario INT,
+	FOREIGN KEY (fkPsiUsuario) REFERENCES usuario(id)
 );
 
 create table aquario (
 /* em nossa regra de negócio, um aquario tem apenas um sensor */
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+	fkPsicologo INT,
+	FOREIGN KEY (fkPsicologo) REFERENCES psicologo(id)
 );
 
 /* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
@@ -52,11 +50,11 @@ create table medida (
 	lm35_temperatura DECIMAL,
 	chave TINYINT,
 	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+	fkPsicologo INT,
+	FOREIGN KEY (fkPsicologo) REFERENCES aquario(id)
 );
 
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 1', 'ED145B');
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+insert into aquario (descricao, fkPsicologo) values ('Aquário de Estrela-do-mar', 1);
+insert into aquario (descricao, fkPsicologo) values ('Aquário de Peixe-dourado', 2);

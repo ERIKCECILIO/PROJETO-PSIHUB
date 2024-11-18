@@ -1,9 +1,9 @@
 var empresaModel = require("../models/empresaModel");
 
-function buscarPorCnpj(req, res) {
-  var cnpj = req.query.cnpj;
+function buscarPorCrp(req, res) {
+  var crp = req.query.crp;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
+  empresaModel.buscarPorCrp(crp).then((resultado) => {
     res.status(200).json(resultado);
   });
 }
@@ -23,16 +23,16 @@ function buscarPorId(req, res) {
 }
 
 function cadastrar(req, res) {
-  var cnpj = req.body.cnpj;
-  var razaoSocial = req.body.razaoSocial;
+  var crp = req.body.crp;
+  var nome = req.body.nome;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
+  empresaModel.buscarPorCrp(crp).then((resultado) => {
     if (resultado.length > 0) {
       res
         .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
+        .json({ mensagem: `o psicologo com o crp ${crp} já existe` });
     } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
+      empresaModel.cadastrar(nome, crp).then((resultado) => {
         res.status(201).json(resultado);
       });
     }
@@ -40,7 +40,7 @@ function cadastrar(req, res) {
 }
 
 module.exports = {
-  buscarPorCnpj,
+  buscarPorCrp,
   buscarPorId,
   cadastrar,
   listar,

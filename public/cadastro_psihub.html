@@ -62,14 +62,13 @@
                      -->
           <div class="campo">
             <span>O que você faz?</span>
-            <select name="ocupacao" id="ocupacao">
+            <select name="campo" id="ocupacao_input">
               <option value="#"></option>
-              <option value="soupsicologo">Sou Psicólogo</option>
-              <option value="facopsicologia">Faço Psicologia</option>
+              <option value="p">Sou Psicólogo</option>
+              <option value="c">Faço Psicologia</option>
               <option value="souestagiarioaprendiz">Sou Estagiário/Aprendiz</option>
             </select>
           </div>
-  
           <div class="campo">
             <span>Nome:</span>
             <input id="nome_input" type="text" placeholder="Seu nome" />
@@ -89,10 +88,6 @@
           <div class="campo">
             <span>Confirmação da Senha:</span>
             <input id="confirmacao_senha_input" type="password" placeholder="******" />
-          </div>
-          <div class="campo">
-            <span>Código de ativação:</span>
-            <input id="codigo_input" type="text" placeholder="Insira aqui seu código" />
           </div>
           <button class="botao" onclick="cadastrar()">Cadastrar</button>
         </div>
@@ -135,7 +130,7 @@
 <script>
 
   // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
+  let listaPsicologosCadastrados = [];
 
   var correto = true
 
@@ -144,19 +139,25 @@
 
     //Recupere o valor da nova input pelo nome do id
     // Agora vá para o método fetch logo abaixo
+    var tipoUsuarioServerVar = ocupacao_input.value;
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var crpVar = crp_input.value;
     var senhaVar = senha_input.value;
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular;
 
     var possui_arroba = email_input.value.includes("@");
     var ponto = email_input.value.includes(".");
 
-    if (emailVar.length == possui_arroba && ".") {
-      emailVar.value.border = "3px solid #08a708"
+    if (tipoUsuarioServerVar.length != "") {
+      ocupacao_input.style.border = "3px solid #08a708"
+    } else {
+      correto = false
+      ocupacao_input.style.border = "3px solid #f70000"
+    }
+
+    if (emailVar.length != "") {
+      email_input.style.border = "3px solid #08a708"
     } else {
       correto = false
       email_input.style.border = "3px solid #f70000"
@@ -183,7 +184,7 @@
       confirmacao_senha_input.style.border = "3px solid #f70000"
     }
 
-    if (crpVar.length == 11) {
+    if (crpVar.length == 6) {
       crp_input.value.border = "3px solid #08a708"
     } else {
       correto = false
@@ -194,12 +195,12 @@
 
     // Verificando se há algum campo em branco
     if (
+      tipoUsuarioServerVar == "" ||
       nomeVar == "" ||
       emailVar == "" ||
       crpVar == "" ||
       senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
+      confirmacaoSenhaVar == ""
     ) {
       cardErro.style.display = "block";
       mensagem_erro.innerHTML =
@@ -211,21 +212,6 @@
       setInterval(sumirMensagem, 5000);
     }
 
-
-
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
-    }
-
     // Enviando o valor da nova input
     fetch("/usuarios/cadastrar", {
       method: "POST",
@@ -235,11 +221,12 @@
       body: JSON.stringify({
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
+        tipoUsuarioServer: tipoUsuarioServerVar, 
         nomeServer: nomeVar,
         emailServer: emailVar,
         crpServer: crpVar,
         senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
+        
       }),
     })
       .then(function (resposta) {
@@ -277,10 +264,10 @@
       .then(function (resposta) {
         resposta.json().then((empresas) => {
           empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
+            listaPsicologosCadastrados.push(empresa);
 
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
+            console.log("listaPsicologosCadastrados")
+            console.log(listaPsicologosCadastrados[0].crpVar)
           });
         });
       })
