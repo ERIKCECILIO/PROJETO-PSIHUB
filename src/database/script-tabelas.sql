@@ -26,7 +26,7 @@ CREATE TABLE aviso (
 	titulo VARCHAR(100),
 	descricao VARCHAR(150),
 	fkPsicologo INT,
-	FOREIGN KEY (fkPsicologo) REFERENCES psicologo(id)
+	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
 create table psiFeed (
@@ -34,7 +34,7 @@ create table psiFeed (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	descricao VARCHAR(300),
 	fkPsicologo INT,
-	FOREIGN KEY (fkPsicologo) REFERENCES psicologo(id)
+	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
 /* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
