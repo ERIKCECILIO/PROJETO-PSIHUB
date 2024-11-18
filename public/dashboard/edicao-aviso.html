@@ -30,13 +30,13 @@
             <h1>PsiHub</h1>
 
             <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3><br>
                 <h4><span id="crp_usuario">crp</span></h4>
             </div>
 
             <div class="btn-nav-white">
                 <a href="cards.html">
-                    <h3>Aquários</h3>
+                    <h3>PsiHub Publicações</h3>
                 </a>
             </div>
 
@@ -47,7 +47,7 @@
             </div>
 
             <div class="btn-nav-white">
-                <a href="./mural.html">
+                <a href="./feedpsihub.html">
                     <h3>PsiHub - PsiFeed</h3>
                 </a>
             </div>
@@ -117,7 +117,7 @@
 
             if (resposta.ok) {
                 window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "/dashboard/mural.html"
+                window.location = "/dashboard/feedpsihub.html"
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
             } else {

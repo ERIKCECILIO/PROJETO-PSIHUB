@@ -6,21 +6,18 @@
 comandos para mysql server
 */
 
-CREATE DATABASE psihub;
+create DATABASE psihub;
 
 USE psihub;
 
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
-    tipoUsuario char(3),
+    tipoUsuario varchar(3),
 	nome VARCHAR(50),
     crp CHAR(6),
 	email VARCHAR(50),
 	senha VARCHAR(50)
 );
-
-INSERT INTO usuario values(
-1, 'p', 'erik', '123456', 'erik@gmail.com', 'senha@123');
 
 SELECT * FROM usuario;
 
@@ -28,11 +25,11 @@ CREATE TABLE aviso (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	titulo VARCHAR(100),
 	descricao VARCHAR(150),
-	fkPsiUsuario INT,
-	FOREIGN KEY (fkPsiUsuario) REFERENCES usuario(id)
+	fkPsicologo INT,
+	FOREIGN KEY (fkPsicologo) REFERENCES psicologo(id)
 );
 
-create table aquario (
+create table psiFeed (
 /* em nossa regra de negócio, um aquario tem apenas um sensor */
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	descricao VARCHAR(300),
@@ -51,7 +48,7 @@ create table medida (
 	chave TINYINT,
 	momento DATETIME,
 	fkPsicologo INT,
-	FOREIGN KEY (fkPsicologo) REFERENCES aquario(id)
+	FOREIGN KEY (fkPsicologo) REFERENCES psiFeed(id)
 );
 
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 1', 'ED145B');
