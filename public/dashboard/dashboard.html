@@ -21,8 +21,7 @@
         <div class="header-left">
             <h1>PsiHub</h1>
             <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3><br>
-                <h4>CRP:<span id="crp_usuario">crp</span></h4>
+
             </div>
             <div class="btn-nav-white">
                 <a href="./feedpsihub.html">
@@ -58,16 +57,18 @@
     </div>
 
     <script>
-
+        b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+        cpf_usuario.innerHTML = sessionStorage.CPF_USUARIO;
         // alert(sessionStorage.ID_USUARIO)
 
+        window.onload = exibirAquariosDoUsuario();
+
+
         const publicacoes = [
-            { id: 1, titulo: "Primeiro post", autor: "João", horario: "10:00" },
-            { id: 2, titulo: "PsiHub é ótimo", autor: "Maria", horario: "14:00" },
-            { id: 3, titulo: "Dicas de psicologia", autor: "João", horario: "10:00" },
+
         ];
 
-        function carregarInsights() {
+        function totalPublicacoesGrafico() {
             const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
             new Chart(ctxTotal, {
                 type: 'line',
@@ -75,42 +76,57 @@
                     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
                     datasets: [{
                         label: 'Publicações',
-                        data: [5, 10, 15, 20],
+                        data: [],
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)'
                     }]
                 },
             });
 
-            const ctxUsuarios = document.getElementById('chartPorUsuario').getContext('2d');
-            const usuarios = ["João", "Maria"];
-            const publicacoesPorUsuario = [2, 1];
-            new Chart(ctxUsuarios, {
-                type: 'bar',
-                data: {
-                    labels: usuarios,
-                    datasets: [{
-                        label: 'Publicações',
-                        data: publicacoesPorUsuario,
-                        backgroundColor: ['#FF6384', '#36A2EB']
-                    }]
-                },
-            });
+            fetch(`/insights/listarTotalPublicacoes`)
+                .then(response => response.json())
+                .then(resultado => {
+                    console.log("Dados recebidos do servidor:", resultado);
+                    console.log("Recebendo total!", resultado);
+                    // Preenchendo os labels e os dados para o gráfico
+                    resultado.forEach((resultado) => {
+                        
+                        ctxTotal.datasets[0].data.push(resultado.acertos)
+                      
+                    })
+                });
 
-            const ctxHora = document.getElementById('chartPorHora').getContext('2d');
-            const horas = ["10:00", "14:00"];
-            const atividades = [2, 1];
-            new Chart(ctxHora, {
-                type: 'bar',
-                data: {
-                    labels: horas,
-                    datasets: [{
-                        label: 'Publicações',
-                        data: atividades,
-                        backgroundColor: '#FFCE56'
-                    }]
-                },
-            });
+
+
+            // const ctxUsuarios = document.getElementById('chartPorUsuario').getContext('2d');
+            // const usuarios = ["João", "Maria"];
+            // const publicacoesPorUsuario = [2, 1];
+            // new Chart(ctxUsuarios, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: usuarios,
+            //         datasets: [{
+            //             label: 'Publicações',
+            //             data: publicacoesPorUsuario,
+            //             backgroundColor: ['#FF6384', '#36A2EB']
+            //         }]
+            //     },
+            // });
+
+            // const ctxHora = document.getElementById('chartPorHora').getContext('2d');
+            // const horas = ["10:00", "14:00"];
+            // const atividades = [2, 1];
+            // new Chart(ctxHora, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: horas,
+            //         datasets: [{
+            //             label: 'Publicações',
+            //             data: atividades,
+            //             backgroundColor: '#FFCE56'
+            //         }]
+            //     },
+            // });
         }
     </script>
 </body>

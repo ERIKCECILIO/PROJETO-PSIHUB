@@ -24,16 +24,24 @@ SELECT * FROM usuario;
 CREATE TABLE aviso (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	titulo VARCHAR(100),
-	descricao VARCHAR(150),
+	descricao VARCHAR(1000),
 	fkPsicologo INT,
 	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
 select * from aviso;
 
+create table insights (
+/* em nossa regra de negócio, um aquario tem apenas um sensor */
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	descricao VARCHAR(300),
+	fkPsicologo INT,
+	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
+);
+
 /* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
 
-create table medida (
+create table graficoInsights (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	dht11_umidade DECIMAL,
 	dht11_temperatura DECIMAL,
@@ -41,8 +49,8 @@ create table medida (
 	lm35_temperatura DECIMAL,
 	chave TINYINT,
 	momento DATETIME,
-	fkPsicologo INT,
-	FOREIGN KEY (fkPsicologo) REFERENCES psiFeed(id)
+	fk_aquario INT,
+	FOREIGN KEY (fk_aquario) REFERENCES insights(id)
 );
 
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 1', 'ED145B');
