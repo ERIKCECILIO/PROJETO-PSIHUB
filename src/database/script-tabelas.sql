@@ -29,13 +29,7 @@ CREATE TABLE aviso (
 	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
-create table psiFeed (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fkPsicologo INT,
-	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
-);
+select * from aviso;
 
 /* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
 

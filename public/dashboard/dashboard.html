@@ -14,7 +14,6 @@
     <script src="./../js/alerta.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body onload="carregarInsights()" style="background-color: #336699;">
@@ -59,7 +58,9 @@
     </div>
 
     <script>
-        // Dados simulados (podem ser substituídos por dados reais da API)
+
+        // alert(sessionStorage.ID_USUARIO)
+
         const publicacoes = [
             { id: 1, titulo: "Primeiro post", autor: "João", horario: "10:00" },
             { id: 2, titulo: "PsiHub é ótimo", autor: "Maria", horario: "14:00" },
@@ -67,22 +68,20 @@
         ];
 
         function carregarInsights() {
-            // Gráfico 1: Total de Publicações
             const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
             new Chart(ctxTotal, {
                 type: 'line',
                 data: {
-                    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'], // Simulação
+                    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
                     datasets: [{
                         label: 'Publicações',
-                        data: [5, 10, 15, 20], // Simulação
+                        data: [5, 10, 15, 20],
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)'
                     }]
                 },
             });
 
-            // Gráfico 2: Publicações por Usuário
             const ctxUsuarios = document.getElementById('chartPorUsuario').getContext('2d');
             const usuarios = ["João", "Maria"];
             const publicacoesPorUsuario = [2, 1];
@@ -98,7 +97,6 @@
                 },
             });
 
-            // Gráfico 3: Atividade por Hora
             const ctxHora = document.getElementById('chartPorHora').getContext('2d');
             const horas = ["10:00", "14:00"];
             const atividades = [2, 1];

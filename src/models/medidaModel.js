@@ -8,7 +8,7 @@ function buscarUltimasMedidas(idAquario, limite_linhas) {
                         momento,
                         DATE_FORMAT(momento,'%H:%i:%s') as momento_grafico
                     FROM medida
-                    WHERE fk_aquario = ${idAquario}
+                    WHERE fkPsicologo = ${idAquario}
                     ORDER BY id DESC LIMIT ${limite_linhas}`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -22,7 +22,7 @@ function buscarMedidasEmTempoReal(idAquario) {
         dht11_umidade as umidade,
                         DATE_FORMAT(momento,'%H:%i:%s') as momento_grafico, 
                         fk_aquario 
-                        FROM medida WHERE fk_aquario = ${idAquario} 
+                        FROM medida WHERE fkPsicologo = ${idAquario} 
                     ORDER BY id DESC LIMIT 1`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
