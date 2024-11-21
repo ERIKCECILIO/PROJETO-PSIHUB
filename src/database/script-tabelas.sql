@@ -29,7 +29,16 @@ CREATE TABLE aviso (
 	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
+SELECT count(*) as acertos FROM aviso;
+SELECT count(*) FROM aviso;
+SELECT count(id) FROM aviso;
+
 select * from aviso;
+
+SELECT fkPsicologo AS usuario, COUNT(*) AS total_publicacoes
+FROM aviso
+GROUP BY fkPsicologo;
+
 
 create table insights (
 /* em nossa regra de negócio, um aquario tem apenas um sensor */
@@ -39,19 +48,9 @@ create table insights (
 	FOREIGN KEY (fkPsicologo) REFERENCES usuario(id)
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
+select * from insights;
 
-create table graficoInsights (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES insights(id)
-);
+/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
 
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 1', 'ED145B');
 insert into psicologo (nome, codigo_ativacao) values ('Empresa 2', 'A1B2C3');

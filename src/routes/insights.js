@@ -7,9 +7,15 @@ router.get("/listarTotalPublicacoes", function (req, res) { // primeiro de tudo
     insightsController.totalPublicacoes(req, res);
 });
 
+
+
 router.get("/publicacoesPorUsuario", function (req, res) { // primeiro de tudo
     insightsController.publicacoesPorUsuario(req, res);
 });
+
+
+
+
 
 
 
@@ -20,6 +26,8 @@ router.get("/listar/:idUsuario", function (req, res) {
 router.get("/pesquisar/:descricao", function (req, res) {
     avisoController.pesquisarDescricao(req, res);
 });
+
+
 
 router.post("/publicar/:idUsuario", function (req, res) {
     avisoController.publicar(req, res);
