@@ -1,11 +1,17 @@
 var express = require("express");
 var router = express.Router();
 
-var avisoController = require("../controllers/avisoController");
+var insightsController = require("../controllers/insightsController");
 
 router.get("/listarTotalPublicacoes", function (req, res) { // primeiro de tudo
     insightsController.totalPublicacoes(req, res);
 });
+
+router.get("/publicacoesPorUsuario", function (req, res) { // primeiro de tudo
+    insightsController.publicacoesPorUsuario(req, res);
+});
+
+
 
 router.get("/listar/:idUsuario", function (req, res) {
     avisoController.listarPorUsuario(req, res);
@@ -27,4 +33,4 @@ router.delete("/deletar/:idAviso", function (req, res) {
     avisoController.deletar(req, res);
 });
 
-module.exports = router;
+module.exports = router; 
