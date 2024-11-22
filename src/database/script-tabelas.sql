@@ -39,6 +39,11 @@ SELECT fkPsicologo AS usuario, COUNT(*) AS total_publicacoes
 FROM aviso
 GROUP BY fkPsicologo;
 
+SELECT fkPsicologo AS usuario, COUNT(id) AS total_publicacoes
+        FROM aviso
+        GROUP BY fkPsicologo
+        ORDER BY total_publicacoes DESC;
+
 
 create table insights (
 /* em nossa regra de negócio, um aquario tem apenas um sensor */

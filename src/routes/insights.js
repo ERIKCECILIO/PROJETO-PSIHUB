@@ -9,8 +9,8 @@ router.get("/listarTotalPublicacoes", function (req, res) { // primeiro de tudo
 
 
 
-router.get("/publicacoesPorUsuario", function (req, res) { // primeiro de tudo
-    insightsController.publicacoesPorUsuario(req, res);
+router.get("/listarpublicacoesPorUsuario", function (req, res) { // primeiro de tudo
+    insightsController.publicacoesPorUsuarioGrafico(req, res);
 });
 
 

@@ -16,7 +16,9 @@
     <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
 </head>
 
-<body onload="totalPublicacoesGrafico()" style="background-color: #336699;">
+label: 'Publicações',
+
+<body onload="totalPublicacoesGrafico(), publicacoesPorUsuarioGrafico() " style="background-color: #336699;">
     <div class="janela">
         <div class="header-left">
             <h1>PsiHub</h1>
@@ -45,7 +47,7 @@
             <!-- Gráfico 2: Publicações por Usuário -->
             <div class="chart-container">
                 <h2>Publicações por Usuário</h2>
-                <canvas id="chartPorUsuario"></canvas>
+                <canvas id="chartPorUsuario" width="400" height="200"></canvas>
             </div>
 
             <!-- Gráfico 3: Atividade por Hora -->
@@ -65,60 +67,83 @@
         ];
 
         function totalPublicacoesGrafico() {
-    const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
-    const chartTotal = new Chart(ctxTotal, { // Salve o gráfico na variável 'chartTotal'
-        type: 'line',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
-            datasets: [{
-                label: 'Publicações',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)'
-            }]
-        },
-    });
-
-    fetch(`/insights/listarTotalPublicacoes`)
-        .then(response => response.json())
-        .then(resultado => {
-            console.log("Dados recebidos do servidor:", resultado);
-            // Preenchendo os labels e os dados para o gráfico
-            resultado.forEach((item) => {
-                chartTotal.data.datasets[0].data.push(item.acertos); // Use 'chartTotal' para acessar os dados do gráfico
-                chartTotal.update(); // Atualize o gráfico para refletir as mudanças
+            const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
+            const chartTotal = new Chart(ctxTotal, { // Salve o gráfico na variável 'chartTotal'
+                type: 'bar',
+                data: {
+                    labels: ['Novembro', 'Dezembro', 'Janeiro', 'Março'],
+                    datasets: [{
+                        label: 'Publicações',
+                        data: [],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                    }]
+                },
             });
-        });
 
-    //     function publicacoesPorUsuarioGrafico() {
-    // const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
-    // const chartTotal = new Chart(ctxTotal, { // Salve o gráfico na variável 'chartTotal'
-    //     type: 'line',
-    //     data: {
-    //         labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
-    //         datasets: [{
-    //             label: 'Publicações',
-    //             data: [],
-    //             borderColor: 'rgba(75, 192, 192, 1)',
-    //             backgroundColor: 'rgba(75, 192, 192, 0.2)'
-    //         }]
-    //     },
-    // });
+            fetch(`/insights/listarTotalPublicacoes`)
+                .then(response => response.json())
+                .then(resultado => {
+                    console.log("Dados recebidos do servidor:", resultado);
+                    // Preenchendo os labels e os dados para o gráfico
+                    resultado.forEach((item) => {
+                        chartTotal.data.datasets[0].data.push(item.acertos); // Use 'chartTotal' para acessar os dados do gráfico
+                        chartTotal.update(); // Atualize o gráfico para refletir as mudanças
+                    });
+                });
+        }
 
-    // fetch(`/insights/publicacoesPorUsuario`)
-    //     .then(response => response.json())
-    //     .then(resultado => {
-    //         console.log("Dados recebidos do servidor:", resultado);
-    //         // Preenchendo os labels e os dados para o gráfico
-    //         resultado.forEach((item) => {
-    //             chartTotal.data.datasets[0].data.push(item.acertos); // Use 'chartTotal' para acessar os dados do gráfico
-    //             chartTotal.update(); // Atualize o gráfico para refletir as mudanças
-    //         });
-    //     });
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+        function publicacoesPorUsuarioGrafico() {
+            const ctxTotalPorUsuario = document.getElementById('chartPorUsuario').getContext('2d');
 
+            /////// criei o gráfico inicial aqui
+            const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // Salve o gráfico na variável 'chartTotal'
+                type: 'polarArea',
+                data: {
+                    labels: [],//vazui por enquanto aguardando os usuários do banco
+                    datasets: [{
+                        label: 'Publicações',
+                        data: [],//vazio por enquanto aguardando os valores do banco
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(75, 192, 192)',
+                            'rgb(255, 205, 86)',
+                            'rgb(201, 203, 207)',
+                            'rgb(54, 162, 235)'
+                        ]
+                    }]
+                },
 
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true // o eixo y precisa  começar em zero
 
+                        }
+                    }
+                }
+            });
+
+            fetch(`/insights/listarpublicacoesPorUsuario`)
+                .then(response => response.json())
+                .then(resultado => {
+
+                    console.log("Dados recebidos do servidor:", resultado);
+                    // Aqui se preenche as labels e todos os dados para o gráfico
+                    resultado.forEach((item) => {
+                        chartTotalPorUsuario.data.labels.push(`Usuário ${item.usuario}`);
+                        chartTotalPorUsuario.data.datasets[0].data.push(item.total_publicacoes);
+                        // chartTotal criado para acessar os dados do gráfico
+                        chartTotalPorUsuario.update(); // Atualize o gráfico para refletir as mudanças
+                    })
+                        .catch(error => {
+                            console.error("Erro ao carregar dados do servidor:", error);
+                        });
+
+                });
         }
     </script>
 </body>
