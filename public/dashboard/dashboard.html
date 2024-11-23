@@ -11,14 +11,15 @@
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
-    <script src="./../js/alerta.js"></script>
+    <!-- <script src="./../js/alerta.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script> -->
 </head>
 
 label: 'Publicações',
 
-<body onload="totalPublicacoesGrafico(), publicacoesPorUsuarioGrafico() " style="background-color: #336699;">
+<body onload="totalPublicacoesGrafico(), publicacoesPorUsuarioGrafico(), publicacoesPorHoraGrafico()"
+    style="background-color: #336699;">
     <div class="janela">
         <div class="header-left">
             <h1>PsiHub</h1>
@@ -38,16 +39,19 @@ label: 'Publicações',
         <div class="dash-right">
             <h1>Insights das Publicações</h1>
 
-            <!-- Gráfico 1: Total de Publicações -->
+
+
+            <!-- DASHBABOARD 1: Total de Publicações  -->
+
             <div class="chart-container">
                 <h2>Total de Publicações</h2>
                 <canvas id="chartTotalPublicacoes"></canvas>
             </div>
 
-            <!-- Gráfico 2: Publicações por Usuário -->
+            <!-- DASHBABOARD 2: Publicações por Usuário -->
             <div class="chart-container">
                 <h2>Publicações por Usuário</h2>
-                <canvas id="chartPorUsuario" width="400" height="200"></canvas>
+                <canvas id="chartPorUsuario"></canvas>
             </div>
 
             <!-- Gráfico 3: Atividade por Hora -->
@@ -62,9 +66,9 @@ label: 'Publicações',
 
         // alert(sessionStorage.ID_USUARIO)
 
-        const publicacoes = [
+        // const publicacoes = [
 
-        ];
+        // ];
 
         function totalPublicacoesGrafico() {
             const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
@@ -75,19 +79,21 @@ label: 'Publicações',
                     datasets: [{
                         label: 'Publicações',
                         data: [],
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
+                        borderColor: 'rgba(75, 192, 192, 1)', // cor da borda da dashboard 
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)' // cor das barras da dashboard
                     }]
                 },
             });
 
-            fetch(`/insights/listarTotalPublicacoes`)
-                .then(response => response.json())
-                .then(resultado => {
-                    console.log("Dados recebidos do servidor:", resultado);
+
+            // const endpoint="/insights/listarTotalPublicacoes"  usar caso eu queira mudar o meu endpoint de forma mais simples
+            fetch(`/insights/listarTotalPublicacoes`)   // parametro que retorna a promise VINDA DIRETAMENTE DA ROUTE
+                .then(response => response.json()) //.then método que recebe o valor em response de retorno do fetch convertido em json orientando o objeto de resposta
+                .then(resultado => { //segundo .then vai obter os dados do primeiro já convertidos em json
+                    console.log(`Dados recebidos do servidor:`, resultado); //teste de console
                     // Preenchendo os labels e os dados para o gráfico
-                    resultado.forEach((item) => {
-                        chartTotal.data.datasets[0].data.push(item.acertos); // Use 'chartTotal' para acessar os dados do gráfico
+                    resultado.forEach((item) => { //resultado vindo da response utilizando 
+                        chartTotal.data.datasets[0].data.push(item.acertos); // Usando 'chartTotal' para ter acesso aos dados da dashboard via SELECT BD
                         chartTotal.update(); // Atualize o gráfico para refletir as mudanças
                     });
                 });
@@ -99,13 +105,13 @@ label: 'Publicações',
             const ctxTotalPorUsuario = document.getElementById('chartPorUsuario').getContext('2d');
 
             /////// criei o gráfico inicial aqui
-            const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // Salve o gráfico na variável 'chartTotal'
+            const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // Salvando a dashboard na var constante 'chartTotalPorUsuario'
                 type: 'polarArea',
                 data: {
-                    labels: [],//vazui por enquanto aguardando os usuários do banco
+                    labels: [],//vazio por enquanto aguardando os usuários do banco
                     datasets: [{
                         label: 'Publicações',
-                        data: [],//vazio por enquanto aguardando os valores do banco
+                        data: [],//vazio por enquanto aguardando os valores do banco, testes de valores mockados concluidos
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: [
                             'rgb(255, 99, 132)',
@@ -120,14 +126,16 @@ label: 'Publicações',
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true // o eixo y precisa  começar em zero
+                            beginAtZero: true // o eixo y precisa começar em zero para contar as publicações de forma clara
 
                         }
                     }
                 }
             });
 
-            fetch(`/insights/listarpublicacoesPorUsuario`)
+
+            // const endpoint=`/insights/listarpublicacoesPorUsuario`  usar caso eu queira mudar o meu endpoint de forma mais simples
+            fetch(`/insights/listarpublicacoesPorUsuario`) // parametro que retorna a promise VINDO DA ROTA
                 .then(response => response.json())
                 .then(resultado => {
 
@@ -136,15 +144,73 @@ label: 'Publicações',
                     resultado.forEach((item) => {
                         chartTotalPorUsuario.data.labels.push(`Usuário ${item.usuario}`);
                         chartTotalPorUsuario.data.datasets[0].data.push(item.total_publicacoes);
-                        // chartTotal criado para acessar os dados do gráfico
-                        chartTotalPorUsuario.update(); // Atualize o gráfico para refletir as mudanças
+                        // chartTotal criado para acessar os dados da Dashboard que está vindo do banco após o selects acima
+                        chartTotalPorUsuario.update(); // Atualizando a dashboard para refletir as mudanças
                     })
                         .catch(error => {
-                            console.error("Erro ao carregar dados do servidor:", error);
+                            console.error("A LEITURA DOS DADOS DO BANCO ESTÁ FALHANDO:", error);
                         });
 
                 });
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+
         }
+
+        function publicacoesPorHoraGrafico(){
+                const ctxPorHora = document.getElementById('chartPorHora').getContext('2d');
+
+                // Inicializa o gráfico com configuração inicial vazia
+                const chartPorHora = new Chart(ctxPorHora, {
+                    type: 'line', // Gráfico de linha para representar as horas de forma contínua
+                    data: {
+                        labels: [], // Labels das horas (serão preenchidas dinamicamente)
+                        datasets: [{
+                            label: 'Atividade por Hora',
+                            data: [], // Quantidade de publicações por hora (serão preenchidas dinamicamente)
+                            borderColor: 'rgba(54, 162, 235, 1)', // Cor da linha
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Cor do preenchimento
+                            tension: 0.4 // Curvatura das linhas (opcional)
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Hora do Dia'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Número de Publicações'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Busca os dados na API
+                fetch(`/insights/listarAtividadePorHora`)
+                    .then(response => response.json())
+                    .then(resultado => {
+                        console.log("Dados recebidos do servidor:", resultado);
+
+                        // Preenche os dados do gráfico dinamicamente
+                        resultado.forEach(item => {
+                            chartPorHora.data.labels.push(`${item.hora}:00`); // Formata a hora no formato "HH:00"
+                            chartPorHora.data.datasets[0].data.push(item.total_publicacoes); // Adiciona o total de publicações
+                        });
+
+                        chartPorHora.update(); // Atualiza o gráfico com os novos dados
+                    })
+                    .catch(error => {
+                        console.error("Erro ao buscar dados para o gráfico de atividade por hora:", error);
+                    });
+            }
     </script>
 </body>
 

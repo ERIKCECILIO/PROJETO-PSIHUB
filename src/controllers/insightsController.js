@@ -3,7 +3,8 @@ var insightsModel = require("../models/insightsModel");
 
 function totalPublicacoes(req, res) {
 
-    insightsModel.totalPublicacoes().then(function (resultado) { // segundo de tudo
+    insightsModel.totalPublicacoes()
+    .then(function (resultado) { // segundo de tudo
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -28,11 +29,23 @@ function publicacoesPorUsuarioGrafico(req, res) {
         });
 }
 
+function publicacoesPorHoraGrafico(req, res) {
+    insightsModel.publicacoesPorHoraGrafico()
+        .then((resultado) => {
+            res.status(200).json(resultado); // Retorna o JSON esperado
+        })
+        .catch((erro) => {
+            console.error("Erro ao buscar dados:", erro);
+            res.status(500).json({ erro: "Erro ao buscar dados" });
+        });
+}
+
 
 
 
 module.exports = {
     totalPublicacoes,
-    publicacoesPorUsuarioGrafico
+    publicacoesPorUsuarioGrafico,
+    publicacoesPorHoraGrafico
 
 }

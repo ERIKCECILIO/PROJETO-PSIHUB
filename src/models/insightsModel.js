@@ -22,10 +22,25 @@ function publicacoesPorUsuarioGrafico() { // terceiro de tudo
     return database.executar(instrucaoSql);
 }
 
+function publicacoesPorHoraGrafico() { // terceiro de tudo
+    console.log("ACESSEI O AVISO MODEL");
+    var instrucaoSql = `
+         SELECT 
+            HOUR(dataHora) AS hora, 
+            COUNT(*) AS total_publicacoes
+            FROM aviso
+            GROUP BY HOUR(dataHora)
+            ORDER BY hora;    
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 
 
 module.exports = {
     totalPublicacoes,
-    publicacoesPorUsuarioGrafico
+    publicacoesPorUsuarioGrafico,
+    publicacoesPorHoraGrafico
 
 }

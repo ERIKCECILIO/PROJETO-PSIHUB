@@ -8,9 +8,13 @@ router.get("/listarTotalPublicacoes", function (req, res) { // primeiro de tudo
 });
 
 
-
 router.get("/listarpublicacoesPorUsuario", function (req, res) { // primeiro de tudo
     insightsController.publicacoesPorUsuarioGrafico(req, res);
+});
+
+
+router.get("/listarAtividadePorHora", function (req, res) { // primeiro de tudo
+    insightsController.publicacoesPorHoraGrafico(req, res);
 });
 
 
