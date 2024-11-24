@@ -18,12 +18,16 @@ body {
   --tamanho-footer: 65px;
 }
 
+
+
+
+
 .container {
   display: flex;
   width: 80%;
   margin: auto;
   align-items:center;
-  background-color: #336699;
+
   justify-content: space-between;
 }
 
