@@ -27,6 +27,9 @@
         <div class="header-left">
 
             <h1>PsiHub</h1>
+            <div id="logo">
+                <img style="width: 40px" src="/public/assets/dashboard/logo1.jpeg">
+            </div>
 
             <div class="hello">
                 <h3>Olá, <span id="b_usuario">usuário</span>!</h3><br>
@@ -73,9 +76,9 @@
                             <br>
                             <br>
                             <label>
-                                Descrição (máximo de 1000 caracteres):
+                                Descrição (máximo de 2000 caracteres):
                                 <br>
-                                <textarea name="descricao" id="textarea_descricao" maxlength="1000" rows="10"></textarea>
+                                <textarea name="descricao" id="textarea_descricao" maxlength="2000" rows="10"></textarea>
                             </label>
                             <br>
                             <br>
@@ -203,6 +206,7 @@
                         var divButtons = document.createElement("div");
                         var btnEditar = document.createElement("button");
                         var btnDeletar = document.createElement("button");
+                       
 
 
                         spanID.innerHTML = "ID: <b>" + publicacao.idAviso + "</b>";

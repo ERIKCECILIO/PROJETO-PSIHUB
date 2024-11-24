@@ -9,6 +9,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for the radar chart -->
     <link rel="stylesheet" href="./css/estilo.css">
+
 </head>
 
 <body>
@@ -31,7 +32,7 @@
     <!-- Simulador -->
     <div class="simulador">
         <div class="container">
-        
+
             <form id="personalityTestForm">
                 <div class="question">
                     <label>1. Você prefere atividades em grupo ou individuais?</label><br>
@@ -83,10 +84,11 @@
                     <input type="radio" name="q10" value="teorico"> Teórico<br>
                     <input type="radio" name="q10" value="pratico"> Prático<br>
                 </div>
-            
-                <button type="button" id="submitBtn" onclick="submitForm()" style="display:none;">Enviar Respostas</button>
+
+                <button type="button" id="submitBtn" class="botao" onclick="submitForm()"
+                    style="display:none;">Resultado</button>
             </form>
-            
+
 
             <div id="dashboard" style="display:none;">
                 <h2>Resultados da Personalidade</h2>
@@ -95,16 +97,16 @@
                     Ainda não faz parte do PsiHub?<br>
                     <button class="botao" href=""><a href="cadastro_psihub.html">Cadastra-se</a></button>
                 </div>
-<br><br>
+                <br><br>
                 <div class="cadastro">
                     Afim de um novo teste?<br>
                     <button class="botao" href=""><a href="PerfildePersonalidade.html">Voltar</a></button>
                 </div>
-            
+
             </div>
 
         </div>
-        
+
     </div>
 
     <script>
@@ -165,8 +167,32 @@
                     }]
                 },
                 options: {
-                    scales: { r: { beginAtZero: true, max: 1 } },
-                    responsive: true
+                    plugins: {
+                        legend: { // Corrigido: "labels" -> "legend"
+                            labels: {
+                                color: 'black' // Cor da legenda
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'purple' // Cor das linhas de ângulo
+                            },
+                            grid: {
+                                color: 'grey' // Corzinha da grade da dashboard né pai
+                            },
+                            pointLabels: {
+                                color: 'black', // Corzinha dos nomes ao redor da dashboard né pai
+                                font: {
+                                    size: 11 // Tamanho da fonte dos nomes ao redor
+                                }
+                            },
+                            suggestedMin: 0, // Valor mínimo sugerido
+                            suggestedMax: 1 // Valor máximo sugerido
+                        }
+                    },
+                    responsive: true // Torna o gráfico responsivo
                 }
             });
 
@@ -176,26 +202,26 @@
     </script>
 
 
-<div class="footer">
-    <div class="container">
-        <li><a href="#">Quem Somos</a></li>
-        <h5>Contato</h5>
-        <p>(11) 90000-0000</p>
-        <p><a href="mailto:contato@psihub.com">contato@psihub.com</a></p>
-        <p>Rua da Felicidade, 666, Channel Orange, Blonde, São Paulo-SP</p>
-        <div class="col-md-12">
-            <h5>Links Recomendados</h5>
-            <ul>
-                <li><a href="https://site.cfp.org.br/">Conselho Federal de Psicologia</a></li>
-                <li><a
-                        href="https://site.cfp.org.br/wp-content/uploads/2018/05/RESOLU%C3%87%C3%83O-N%C2%BA-11-DE-11-DE-MAIO-DE-2018.pdf">Resolução
-                        CFP 011/2018</a></li>
-                <li><a href="https://site.cfp.org.br/wp-content/uploads/2012/07/codigo-de-etica-psicologia.pdf">Código
-                        de
-                        Ética do Psicólogo</a></li>
-            </ul>
+    <div class="footer">
+        <div class="container">
+            <li><a href="#">Quem Somos</a></li>
+            <h5>Contato</h5>
+            <p>(11) 98633-1067</p>
+            <p><a href="mailto:contato@psihub.com">contato@psihub.com</a></p>
+            <p>Rua da Felicidade, 666, Channel Orange, Blonde, São Paulo-SP</p>
+            <div class="col-md-12">
+                <h5>Links Recomendados</h5>
+                <ul>
+                    <li><a href="https://site.cfp.org.br/">Conselho Federal de Psicologia</a></li>
+                    <li><a
+                            href="https://site.cfp.org.br/wp-content/uploads/2018/05/RESOLU%C3%87%C3%83O-N%C2%BA-11-DE-11-DE-MAIO-DE-2018.pdf">Resolução
+                            CFP 011/2018</a></li>
+                    <li><a href="https://site.cfp.org.br/wp-content/uploads/2012/07/codigo-de-etica-psicologia.pdf">Código
+                            de
+                            Ética do Psicólogo</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

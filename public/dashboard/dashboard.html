@@ -71,8 +71,9 @@ label: 'Publicações',
         // ];
 
         function totalPublicacoesGrafico() {
+            /////// criei o primeiro gráfico aqui
             const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
-            const chartTotal = new Chart(ctxTotal, { // Salve o gráfico na variável 'chartTotal'
+            const chartTotal = new Chart(ctxTotal, { // Salvando a dashboard na variável constante 'chartTotal' dentro do canvas
                 type: 'bar',
                 data: {
                     labels: ['Novembro', 'Dezembro', 'Janeiro', 'Março'],
@@ -104,8 +105,8 @@ label: 'Publicações',
         function publicacoesPorUsuarioGrafico() {
             const ctxTotalPorUsuario = document.getElementById('chartPorUsuario').getContext('2d');
 
-            /////// criei o gráfico inicial aqui
-            const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // Salvando a dashboard na var constante 'chartTotalPorUsuario'
+            /////// criei o segundo gráfico aqui
+            const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // Salvando a dashboard na var constante 'chartTotalPorUsuario' em canvas
                 type: 'polarArea',
                 data: {
                     labels: [],//vazio por enquanto aguardando os usuários do banco
@@ -141,76 +142,74 @@ label: 'Publicações',
 
                     console.log("Dados recebidos do servidor:", resultado);
                     // Aqui se preenche as labels e todos os dados para o gráfico
-                    resultado.forEach((item) => {
-                        chartTotalPorUsuario.data.labels.push(`Usuário ${item.usuario}`);
-                        chartTotalPorUsuario.data.datasets[0].data.push(item.total_publicacoes);
+                    resultado.forEach((item) => { // resultado do fetch buscado em json, utilizando ForEach dedicado à puxar cada item que quero dentro do vetor puxando do banco de dados
+                        chartTotalPorUsuario.data.labels.push(`Usuário ${item.usuario}`); // item id do usuario
+                        chartTotalPorUsuario.data.datasets[0].data.push(item.total_publicacoes); // item de total de publicacoes desse usuario
                         // chartTotal criado para acessar os dados da Dashboard que está vindo do banco após o selects acima
                         chartTotalPorUsuario.update(); // Atualizando a dashboard para refletir as mudanças
                     })
-                        .catch(error => {
-                            console.error("A LEITURA DOS DADOS DO BANCO ESTÁ FALHANDO:", error);
-                        });
+
 
                 });
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            
+
 
         }
 
-        function publicacoesPorHoraGrafico(){
-                const ctxPorHora = document.getElementById('chartPorHora').getContext('2d');
-
-                // Inicializa o gráfico com configuração inicial vazia
-                const chartPorHora = new Chart(ctxPorHora, {
-                    type: 'line', // Gráfico de linha para representar as horas de forma contínua
-                    data: {
-                        labels: [], // Labels das horas (serão preenchidas dinamicamente)
-                        datasets: [{
-                            label: 'Atividade por Hora',
-                            data: [], // Quantidade de publicações por hora (serão preenchidas dinamicamente)
-                            borderColor: 'rgba(54, 162, 235, 1)', // Cor da linha
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Cor do preenchimento
-                            tension: 0.4 // Curvatura das linhas (opcional)
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Hora do Dia'
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Número de Publicações'
-                                }
+        function publicacoesPorHoraGrafico() {
+            const ctxPorHora = document.getElementById('chartPorHora').getContext('2d'); 
+            /////// criei o terceiro gráfico aqui
+            // Iniciando a dashboard com sua configuração inicial vazia aguardando os dados vindos do ForEach abaixo
+            const chartPorHora = new Chart(ctxPorHora, { // Salvando a dashboard na variável constante 'chartTotal' dentro do canvas
+                type: 'line', // Dashboard em linha para representar todas todos os picos de atividade em horas de forma contínua
+                data: {
+                    labels: [], // Labels das horas que serão preenchidas de forma dinâmica com os dados do ForEach)
+                    datasets: [{
+                        label: 'Atividade de posts por Hora',
+                        data: [], // qtd de posts por hora que serão preenchidas de forma dinâmica com os dados do ForEach
+                        borderColor: 'rgba(54, 162, 235, 1)', // Cor da linha única
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Cor do preenchimento da mesma
+                        tension: 0.4 // Curvatura da linha única indicando a atividade no site em horário de pico
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hora do Dia'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Número de Posts'
                             }
                         }
                     }
-                });
+                }
+            });
 
-                // Busca os dados na API
-                fetch(`/insights/listarAtividadePorHora`)
-                    .then(response => response.json())
-                    .then(resultado => {
-                        console.log("Dados recebidos do servidor:", resultado);
+            // Buscando os dados utilizando o fetch dedicado em insights
+            fetch(`/insights/listarAtividadePorHora`) // parametro que retorna a promise VINDO DA ROTA
+                .then(response => response.json())  //.then método que recebe o valor em response de retorno do fetch convertido em json orientando o objeto de resposta
+                .then(resultado => { //segundo .then vai obter os dados do primeiro já convertidos em json
+                    console.log("Dados recebidos do servidor:", resultado);
 
-                        // Preenche os dados do gráfico dinamicamente
-                        resultado.forEach(item => {
-                            chartPorHora.data.labels.push(`${item.hora}:00`); // Formata a hora no formato "HH:00"
-                            chartPorHora.data.datasets[0].data.push(item.total_publicacoes); // Adiciona o total de publicações
-                        });
-
-                        chartPorHora.update(); // Atualiza o gráfico com os novos dados
-                    })
-                    .catch(error => {
-                        console.error("Erro ao buscar dados para o gráfico de atividade por hora:", error);
+                    // Preenchendo os dados da dashboard de forma dinâmica utilizando forEach e puxando cada dado do vetor dedicado ao banco de dados
+                    resultado.forEach(item => {
+                        chartPorHora.data.labels.push(`${item.hora}:00`); // Formatando a hora em HH:00
+                        chartPorHora.data.datasets[0].data.push(item.total_publicacoes); // Adicionando o total de publicações ao longo das horas
                     });
-            }
+
+                    chartPorHora.update(); // Atualizando o gráfico com os novos dados após postar no psiFeed
+                })
+                .catch(error => { // caso ocorra erro em buscar os dados da dashboard
+                    console.error("Erro ao buscar dados para a dashboard de atividade por hora:", error);
+                });
+        }
     </script>
 </body>
 

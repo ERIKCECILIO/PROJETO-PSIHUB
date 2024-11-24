@@ -5,7 +5,9 @@ body {
   padding: 0;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #336699;
-
+  display: flex; /* tornando o body um container flexível*/
+  flex-direction: column; /* colocando os elemnentos em uma coluna*/
+  min-height: 100vh; /* Garantindo que o body ocupe toda a altura da viewport */
 }
 
 :root {
@@ -21,6 +23,7 @@ body {
   width: 80%;
   margin: auto;
   align-items:center;
+  background-color: #336699;
   justify-content: space-between;
 }
 
@@ -150,13 +153,15 @@ body {
 /* FOOTER */
 
 .footer {
-  height: 100px;
+  height: var(--tamanho-footer); /* vou usar a variável de tamanho sim!!! */
   color: #ffffff;
   border-top: solid;
   display: flex;
-  width: 100%;
+  justify-content: center; /* Centralize o conteúdo plis!! */
+  align-items: center; /* Alinhe verticalmente a parada também!!! namoralzinhaaaa */
   font-size: 15px;
-
+  width: 100%;
+margin-top: auto; /* empurra o footer pro final empurraaaaaaaaaaaa */
 }
 
 .col-md-12 {
@@ -174,7 +179,12 @@ body {
 
 .footer .container .version {
   font-size: 12px;
+
 }
+
+/* dashboard quiz personalidade */
+
+
 
 /* LOGIN */
 
@@ -329,7 +339,7 @@ div .cadastro{
 
 input {
   margin-bottom: 10px;
-  border: 2px solid #32b9cd;
+  border: 2px solid #4c4c4c;
   padding: 10px;
   text-align: center;
   border-radius: 10px;
@@ -360,14 +370,79 @@ input {
   width: 50px;
 }
 
-/* SIMULADOR */
+/* PEGA O SIMULADOR DO PAI!!!!!!!!!!!! */
+
+.simulador .container {
+  max-width: 800px;
+  margin: 0 auto; /* AJUSTA O CONTAINER DO SIMULADOR PRO PAI VAIIIIIIIIIIIIIIIIII DEIXE ELE MAIS BAIXO DEIXEEEE */
+  padding: 20px;
+}
+
+
+.simulador body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #292929; /* Cor de fundo para destaque */
+  color: #333333; /* Cor padrão dos textos */
+  text-align: center;
+}
 
 .simulador {
-  color: white;
-  flex-direction: column;
+  color: rgb(0, 0, 0);
   background-image: url(../assets/imgs/pexels-eberhardgross-1287142.jpg);
  background-size: 100%;
+ flex: 1; /* faça com que o simulador ocupe o espaço restante */
+ display: flex; /* DEIXE O BICHO SOLTO DEIXEEEE */
+ flex-direction: column;
+ justify-content: center; /* DEXE AS PERGUNTA NO CENTRO DEXEEEEEE EXPANDE ESSE CÉU MARAVILHOSOOO*/
+ align-items: center; /* DEXE AS PERGUNTA NO CENTRO DEXEEEEEE EXPANDE ESSE CÉU MARAVILHOSOOO*/
+ min-height: 100vh;
 }
+
+.simulador .question {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.simulador .question label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #282828; /* DEIXE AS AS PERGUNTAS DO QUIZ NA CORZINHA PRETA DEIXEEEEEEEEEEEEE */
+}
+
+.simulador .question input {
+  margin: 5px;
+}
+
+.simulador .botao {
+  background-color: #6a5acd;
+  color: #ffffff;
+  border: none;
+  padding: 30;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.simulador .botao a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.simulador .botao:hover {
+  background-color: #483d8b;
+}
+
+.simulador canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.simulador #personalityChart {
+  margin: 20px 0;
+}
+
 
 .simulador .container {
   flex-direction: column;
