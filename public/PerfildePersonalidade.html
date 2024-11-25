@@ -29,15 +29,14 @@
         </div>
     </div>
 
+    <!-- Simulador -->
     <div class="simulador">
         <div class="container">
 
-            <form id="PerfildePersonalidade">
+            <form id="personalidadeTesteForm">
                 <div class="question">
                     <label>1. Você prefere atividades em grupo ou individuais?</label><br>
-                    <input type="radio" name="q1" value="introvertido"> Individuais<br> //
-
-
+                    <input type="radio" name="q1" value="introvertido"> Individuais<br>
                     <input type="radio" name="q1" value="extrovertido"> Em grupo<br>
                 </div>
                 <div class="question">
@@ -86,7 +85,7 @@
                     <input type="radio" name="q10" value="pratico"> Prático<br>
                 </div>
 
-                <button type="button" id="MandarForm" class="botao" onclick="MandarForm()"
+                <button type="button" id="submitBtn" class="botao" onclick="mandarForm()"
                     style="display:none;">Resultado</button>
             </form>
 
@@ -111,36 +110,36 @@
     </div>
 
     <script>
-        let currentQuestion = 0;
+        let questaoAtual = 0;
 
-        function showQuestion(index) {
-            const questions = document.querySelectorAll('.question');
-            questions.forEach((question, i) => {
+        function mostrarPergunta(index) {
+            const perguntas = document.querySelectorAll('.question'); // ok
+            perguntas.forEach((question, i) => { // NÃO PODE SER MUDADO DE FORMA ALGUMA POIS É O FORMATO DO FORM
                 question.style.display = i === index ? 'block' : 'none';
             });
 
             // Mostrar o botão "Enviar" somente na última pergunta
-            document.getElementById('submitBtn').style.display = (index === questions.length - 1) ? 'block' : 'none';
+            document.getElementById('submitBtn').style.display = (index === perguntas.length - 1) ? 'block' : 'none';
         }
 
-        function nextQuestion() {
-            const questions = document.querySelectorAll('.question');
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
+        function proximaPergunta() {
+            const perguntas = document.querySelectorAll('.question');
+            if (questaoAtual < perguntas.length - 1) {
+                questaoAtual++;
+                mostrarPergunta(questaoAtual);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => { 
-            showQuestion(currentQuestion);
+        document.addEventListener('DOMContentLoaded', () => {
+            mostrarPergunta(questaoAtual);
             const radios = document.querySelectorAll('input[type="radio"]');
             radios.forEach(radio => {
-                radio.addEventListener('change', nextQuestion);
+                radio.addEventListener('change', proximaPergunta); //NÃO MUDAR DE FORMA ALGUMA SENAO O NEGOCIO NAO PASSA AUTOMATICAMENTE
             });
         });
 
-        function MandarForm() {
-            const answers = {
+        function mandarForm() {
+            const respostas = {
                 introvertido: 0, extrovertido: 0, adaptavel: 0, inflexivel: 0,
                 conservador: 0, ousado: 0, planejado: 0, improvisador: 0,
                 organizado: 0, desorganizado: 0, resiliente: 0, sensivel: 0,
@@ -148,20 +147,20 @@
                 lider: 0, seguidor: 0, teorico: 0, pratico: 0
             };
 
-            const formData = new FormData(document.getElementById('personalityTestForm'));
+            const formData = new FormData(document.getElementById('personalidadeTesteForm'));
 
             formData.forEach((value) => {
-                answers[value]++;
+                respostas[value]++;
             });
 
             const ctx = document.getElementById('personalityChart').getContext('2d');
             new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: Object.keys(answers),
+                    labels: Object.keys(respostas),
                     datasets: [{
                         label: 'Resultados do Teste de Personalidade',
-                        data: Object.values(answers),
+                        data: Object.values(respostas),
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -169,7 +168,7 @@
                 },
                 options: {
                     plugins: {
-                        legend: { // Corrigido: "labels" -> "legend"
+                        legend: { // Corrigido: de labels para legend
                             labels: {
                                 color: 'black' // Cor da legenda
                             }
@@ -197,7 +196,7 @@
                 }
             });
 
-            document.getElementById('personalityTestForm').style.display = 'none';
+            document.getElementById('personalidadeTesteForm').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
         }
     </script>
