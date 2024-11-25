@@ -36,24 +36,18 @@ function publicacoesPorHoraGrafico() { // terceiro de tudo
     return database.executar(instrucaoSql);
 }
 
-function listarPerfil(idUsuario) {
-    console.log("ACESSEI O AVISO MODEL");
-    var instrucaoSql = `
-        SELECT 
-            id AS idAviso,
-            titulo,
-            descricao,
-            DATE_FORMAT(dataHora, '%Y-%m-%d %H:%i:%s') AS dataHora
-        FROM 
-            aviso
-        WHERE 
-            fkPsicologo = ${idUsuario}
-        ORDER BY 
-            dataHora DESC;
-    `;
-
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql); // Verifique se a função executar está implementada corretamente
+function listarPerfil(req, res) {
+    var idUsuario = req.params.idUsuario;
+    // Lógica para buscar posts no banco de dados
+    db.query(`SELECT * FROM posts WHERE id_usuario = ${idUsuario}`, function (err, resultados) {
+        if (err) {
+            res.status(500).send({ erro: 'Erro no servidor!' });
+        } else if (resultados.length === 0) {
+            res.status(404).send({ mensagem: 'Nenhuma publicação encontrada!' });
+        } else {
+            res.status(200).json(resultados);
+        }
+    });
 }
 
 

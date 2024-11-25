@@ -40,21 +40,20 @@ function publicacoesPorHoraGrafico(req, res) {
         });
 }
 
-function listarPerfil(req, res) {
-    var idUsuario = req.params.idUsuario;  // Extrai o ID da URL
-    if (!idUsuario) {
-        return res.status(400).json({ erro: "ID do usuário é obrigatório." });
-    }
+function listarPorUsuario(idUsuario, res) {
+    var instrucaoSql = `SELECT * FROM avisos WHERE fk_usuario = ${idUsuario}`;
 
-    insightsModel.listarPerfil(idUsuario)
-        .then((resultado) => {
-            res.status(200).json(resultado);
-        })
-        .catch((erro) => {
-            console.error("Erro ao buscar dados:", erro);
-            res.status(500).json({ erro: "Erro ao buscar dados" });
-        });
+    conexao.query(instrucaoSql, function (erro, resultado) {
+        if (erro) {
+            res.status(500).json({ erro: erro });
+        } else if (resultado.length == 0) {
+            res.status(204).send(); // Nenhuma publicação encontrada
+        } else {
+            res.status(200).json(resultado); // Retorna os posts do usuário
+        }
+    });
 }
+
 
 
 
@@ -63,5 +62,5 @@ module.exports = {
     totalPublicacoes,
     publicacoesPorUsuarioGrafico,
     publicacoesPorHoraGrafico,
-    listarPerfil
+    listarPorUsuario
 }

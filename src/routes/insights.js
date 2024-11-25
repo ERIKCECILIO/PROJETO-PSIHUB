@@ -18,9 +18,13 @@ router.get("/listarAtividadePorHora", function (req, res) { // primeiro de tudo
     insightsController.publicacoesPorHoraGrafico(req, res);
 });
 
-router.get('/listarPerfil/:idUsuario', function (req, res) {
-    insightsController.listarPerfil(req, res);  // primeiro de tudo chame a função e o idUsuario da funcao em si
+
+router.get('/avisos/listar/:idUsuario', (req, res) => {
+    var idUsuario = req.params.idUsuario;
+    // Chama a função do modelo para buscar os posts do usuário
+    insightsController.listarPorUsuario(idUsuario, res);
 });
+
 
 
 

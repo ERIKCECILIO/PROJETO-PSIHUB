@@ -6,184 +6,128 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PsiHub | Perfil</title>
-
+    <title>PsiHub | Meu Perfil</title>
 
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
-
     <script src="../js/sessao.js"></script>
-    <script src="../js/alerta.js"></script>
+    <script src="./../js/alerta.js"></script>
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
         rel="stylesheet">
 </head>
 
-<!-- <body onload="validarSessao(), exibirAquarios(),  atualizacaoPeriodica()"> -->
-
-<body onload="validarSessao(),listarPerfil()">
-
-    <body onload="exibirPerfil()">
-
-        <div class="janela">
-
-            <div class="header-left dash-header">
-                <div id="logo">
-                    <img src="/logo1.png" alt="logopsihub" width="200" height="200">
-                </div>
-
-
-
-                <div class="hello">
-                    <br>
-                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-                    <h4>CRP:<span id="crp_usuario">crp</span></h4>
-                </div>
-
-                <div class="btn-nav">
-                    <h3>Perfil</h3>
-                </div>
-
-                <div class="btn-nav-white">
-                    <a href="./dashboard.html">
-                        <h3>Insights</h3>
-                    </a>
-                </div>
-
-                <div class="btn-nav-white">
-                    <a href="./feedpsihub.html">
-                        <h3>PsiFeed</h3>
-                    </a>
-                </div>
-
-                <div class="btn-logout" onclick="limparSessao()">
-                    <h3>Sair</h3>
-                </div>
-
+<body onload="validarSessao(), listarPorUsuario()" style="background-color: #336699;">
+    <div class="janela">
+        <div class="header-left">
+            <div id="logo">
+                <img src="/logo1.png" alt="logopsihub" width="200" height="200">
             </div>
-            <div class="dash-right">
-                <div class="avisos">
-                    <div id="alerta"></div>
-                    <div class="container">
-                        <h1>Seus Posts</h1>
-                        <div class="div-results">
-                            <div id="feed_container" class="feed-container"></div>
-                        </div>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3><br>
+                <h4>CRP:<span id="crp_usuario">crp</span></h4>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="cards.html">
+                    <h3>Perfil</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Insights</h3>
+                </a>
+            </div>
+
+            <div class="btn-nav">
+                <h3>Meu Feed</h3>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+        </div>
+
+        <div class="dash-right">
+            <div class="avisos">
+                <div id="alerta"></div>
+                <div class="container">
+                    <h1>Minhas Publicações</h1>
+                    <div class="div-results">
+                        <div id="feed_container" class="feed-container"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-            crp_usuario.innerHTML = sessionStorage.CRP_USUARIO;
-
-            function listarPerfil() {
-    var idUsuario = sessionStorage.getItem('ID_USUARIO');
-    
-    fetch(`/cards/listarPerfil/${idUsuario}`).then(function (resposta) {  // Ajuste a rota para "/cards"
-        if (resposta.ok) {
-            resposta.json().then(function (resposta) {
-                // Manipulação dos dados recebidos
-                console.log(resposta);
-                // Renderizar posts no HTML
-            });
-        } else {
-            alert('Erro ao carregar posts!');
-        }
-    }).catch(function (erro) {
-        console.error("Erro ao carregar posts:", erro);
-    });
-}
-
-            function editar(idAviso) {
-                sessionStorage.ID_POSTAGEM_EDITANDO = idAviso;
-                window.location = "/dashboard/edicao-aviso.html";
-            }
-
-            function deletar(idAviso) {
-                fetch(`/avisos/deletar/${idAviso}`, { method: "DELETE" })
-                    .then(function (resposta) {
-                        if (resposta.ok) {
-                            alert("Post deletado com sucesso!");
-                            carregarPerfil();
-                        } else {
-                            alert("Erro ao deletar post!");
-                        }
-                    }).catch(function (erro) {
-                        console.error(erro);
-                    });
-            }
-        </script>
-
-    </body>
-
-</html>
-
-<!-- <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PsiHub | Perfil do Usuário</title>
-    <link rel="stylesheet" href="./../css/estilo.css">
-</head>
-<body onload="exibirPerfil()">
-
-    <div class="header">
-        <h1>PsiHub - Perfil do Usuário</h1>
-        <div class="hello">
-            <h3>Olá, <span id="b_usuario">Usuário</span>!</h3>
-            <h4>CRP: <span id="crp_usuario">CRP</span></h4>
-        </div>
     </div>
 
-    <div class="perfil-container">
-        <h2>Suas Publicações</h2>
-        <div id="publicacoes" class="publicacoes-container">
-            <!-- As publicações do usuário serão carregadas aqui -->
-<!-- </div>
-    </div>
+</body>
 
-    <script>
-        async function exibirPerfil() {
-            const userId = sessionStorage.getItem('userId'); // ID do usuário logado
+<script>
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    crp_usuario.innerHTML = sessionStorage.CRP_USUARIO;
 
-            try {
-                // Busca dados do usuário e suas publicações
-                const resposta = await fetch(`/api/usuario/${userId}/publicacoes`);
-                
-                if (!resposta.ok) {
-                    throw new Error('Erro ao buscar publicações.');
+    function listarPorUsuario() {
+        var idUsuario = sessionStorage.ID_USUARIO;
+
+        // Nova rota para listar posts do usuário logado
+        fetch(`/avisos/listar/${idUsuario}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhuma publicação encontrada.";
+                    feed.appendChild(mensagem);
+                    return;
                 }
 
-                const dados = await resposta.json();
+                resposta.json().then(function (publicacoes) {
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = "";
 
-                // Exibe nome e CRP do usuário
-                document.getElementById("b_usuario").innerText = dados.nome;
-                document.getElementById("crp_usuario").innerText = dados.crp;
+                    publicacoes.forEach(function (publicacao) {
+                        var divPublicacao = document.createElement("div");
+                        var spanTitulo = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+                        var divButtons = document.createElement("div");
+                        var btnEditar = document.createElement("button");
+                        var btnDeletar = document.createElement("button");
 
-                const publicacoesContainer = document.getElementById("publicacoes");
-                publicacoesContainer.innerHTML = ""; // Limpa o conteúdo
+                        spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
+                        divDescricao.innerHTML = "Descrição: <b>" + publicacao.descricao + "</b>";
+                        btnEditar.innerHTML = "Editar";
+                        btnDeletar.innerHTML = "Deletar";
 
-                // Itera sobre as publicações do usuário
-                dados.publicacoes.forEach(post => {
-                    const postDiv = document.createElement("div");
-                    postDiv.classList.add("post");
-                    postDiv.innerHTML = `
-                        <h3>${post.titulo}</h3>
-                        <p>${post.descricao}</p>
-                        <small>Publicado em: ${new Date(post.dataHora).toLocaleString()}</small>
-                    `;
-                    publicacoesContainer.appendChild(postDiv);
+                        divPublicacao.className = "publicacao";
+                        divDescricao.className = "publicacao-descricao";
+                        divButtons.className = "div-buttons";
+
+                        btnEditar.className = "publicacao-btn-editar";
+                        btnEditar.setAttribute("onclick", `editar(${publicacao.idAviso})`);
+
+                        btnDeletar.className = "publicacao-btn-deletar";
+                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
+
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnDeletar);
+                        divPublicacao.appendChild(divButtons);
+
+                        feed.appendChild(divPublicacao);
+                    });
                 });
-
-            } catch (erro) {
-                console.error('Erro ao exibir perfil:', erro);
-                alert('Erro ao carregar perfil.');
+            } else {
+                console.error('Erro na API!');
             }
-        }
-    </script>
-</body>
-</html> --> -->
+        }).catch(function (error) {
+            console.error("Erro: ", error);
+        });
+    }
+</script>
+
+</html>
