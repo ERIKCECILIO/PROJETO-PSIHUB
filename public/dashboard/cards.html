@@ -44,7 +44,9 @@
             </div>
 
             <div class="btn-nav">
-                <h3>Meu Feed</h3>
+                <a href="./feedpsihub.html">
+                    <h3>PsiFeed</h3>
+                </a>
             </div>
 
             <div class="btn-logout" onclick="limparSessao()">
@@ -74,13 +76,13 @@
     function listarPorUsuario() {
         var idUsuario = sessionStorage.ID_USUARIO;
 
-        // Nova rota para listar posts do usuário logado
-        fetch(`/avisos/listar/${idUsuario}`).then(function (resposta) {
+        // Criando última rota feita para listar posts do usuário logado
+        fetch(`/avisos/listar/${idUsuario}`).then(function (resposta) { //  aqui puxando diretamente do mural de avisos listando por idUsuario
             if (resposta.ok) {
                 if (resposta.status == 204) {
-                    var feed = document.getElementById("feed_container");
+                    var feed = document.getElementById("feed_container");//  caso a resposta seja ok, crie o container
                     var mensagem = document.createElement("span");
-                    mensagem.innerHTML = "Nenhuma publicação encontrada.";
+                    mensagem.innerHTML = "Nenhuma publicação encontrada."; //  caso o usuário não tenha postado ainda ou tenha excluído.
                     feed.appendChild(mensagem);
                     return;
                 }
@@ -112,11 +114,11 @@
                         btnDeletar.className = "publicacao-btn-deletar";
                         btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
 
-                        divPublicacao.appendChild(spanTitulo);
-                        divPublicacao.appendChild(divDescricao);
-                        divButtons.appendChild(btnEditar);
-                        divButtons.appendChild(btnDeletar);
-                        divPublicacao.appendChild(divButtons);
+                        divPublicacao.appendChild(spanTitulo); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(divDescricao); //esquerda pai direita filho dom api nó
+                        divButtons.appendChild(btnEditar); //esquerda pai direita filho dom api nó
+                        divButtons.appendChild(btnDeletar); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(divButtons); //esquerda pai direita filho dom api nó
 
                         feed.appendChild(divPublicacao);
                     });

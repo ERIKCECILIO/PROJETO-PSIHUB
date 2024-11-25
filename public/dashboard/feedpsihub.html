@@ -116,7 +116,7 @@
             descricao: form_postagem.descricao.value
         }
 
-        fetch(`/avisos/publicar/${idUsuario}`, {
+        fetch(`/avisos/publicar/${idUsuario}`, { //preenche os dados dinamicamente a partir de uma requisição fetch a API web data viz
             method: "post",
             headers: {
                 "Content-Type": "application/json"
@@ -155,7 +155,7 @@
 
     function deletar(idAviso) {
         console.log("Criar função de apagar post escolhido - ID" + idAviso);
-        fetch(`/avisos/deletar/${idAviso}`, {
+        fetch(`/avisos/deletar/${idAviso}`, { //deleta os dados dinamicamente a partir de uma requisição fetch a API web data viz
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -176,7 +176,7 @@
     }
 
     function atualizarFeed() {
-        fetch("/avisos/listar").then(function (resposta) {
+        fetch("/avisos/listar").then(function (resposta) { //edita os dados dinamicamente a partir de uma requisição fetch a API web data viz
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed_container");

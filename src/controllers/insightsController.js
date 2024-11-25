@@ -18,10 +18,10 @@ function totalPublicacoes(req, res) {
 }
 
 
-function publicacoesPorUsuarioGrafico(req, res) {
-    insightsModel.publicacoesPorUsuarioGrafico()
+function publicacoesPorUsuarioGrafico(req, res) { 
+    insightsModel.publicacoesPorUsuarioGrafico() // segundo de tudo
         .then((resultado) => {
-            res.status(200).json(resultado); // Retorna o JSON esperado
+            res.status(200).json(resultado); // Retorna o json programado
         })
         .catch((erro) => {
             console.error("Erro ao buscar dados:", erro);
@@ -30,9 +30,9 @@ function publicacoesPorUsuarioGrafico(req, res) {
 }
 
 function publicacoesPorHoraGrafico(req, res) {
-    insightsModel.publicacoesPorHoraGrafico()
+    insightsModel.publicacoesPorHoraGrafico() // segundo de tudo
         .then((resultado) => {
-            res.status(200).json(resultado); // Retorna o JSON esperado
+            res.status(200).json(resultado); // Retorna o json programado
         })
         .catch((erro) => {
             console.error("Erro ao buscar dados:", erro);
@@ -41,15 +41,15 @@ function publicacoesPorHoraGrafico(req, res) {
 }
 
 function listarPorUsuario(idUsuario, res) {
-    var instrucaoSql = `SELECT * FROM avisos WHERE fk_usuario = ${idUsuario}`;
+    var instrucaoSql = `SELECT * FROM avisos WHERE fk_usuario = ${idUsuario}`; // segundo de tudo
 
     conexao.query(instrucaoSql, function (erro, resultado) {
         if (erro) {
             res.status(500).json({ erro: erro });
         } else if (resultado.length == 0) {
-            res.status(204).send(); // Nenhuma publicação encontrada
+            res.status(204).send(); // caso nenhuma publicação for encontrada
         } else {
-            res.status(200).json(resultado); // Retorna os posts do usuário
+            res.status(200).json(resultado); // Retorna todos os posts feitos pelo usuário
         }
     });
 }
