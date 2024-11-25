@@ -36,11 +36,34 @@ function publicacoesPorHoraGrafico() { // terceiro de tudo
     return database.executar(instrucaoSql);
 }
 
+function listarPerfil(idUsuario) {
+    console.log("ACESSEI O AVISO MODEL");
+    var instrucaoSql = `
+        SELECT 
+            id AS idAviso,
+            titulo,
+            descricao,
+            DATE_FORMAT(dataHora, '%Y-%m-%d %H:%i:%s') AS dataHora
+        FROM 
+            aviso
+        WHERE 
+            fkPsicologo = ${idUsuario}
+        ORDER BY 
+            dataHora DESC;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql); // Verifique se a função executar está implementada corretamente
+}
+
+
+
+
 
 
 module.exports = {
     totalPublicacoes,
     publicacoesPorUsuarioGrafico,
-    publicacoesPorHoraGrafico
-
+    publicacoesPorHoraGrafico,
+    listarPerfil
 }

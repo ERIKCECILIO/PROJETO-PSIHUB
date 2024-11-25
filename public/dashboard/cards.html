@@ -80,37 +80,22 @@
             crp_usuario.innerHTML = sessionStorage.CRP_USUARIO;
 
             function listarPerfil() {
-                var idUsuario = sessionStorage.ID_USUARIO;
-
-                fetch(`/avisos/listarUsuario/${idUsuario}`).then(function (resposta) {
-                    if (resposta.ok) {
-                        resposta.json().then(function (resposta) {
-                            var feed = document.getElementById("feed_container");
-                            feed.innerHTML = "";
-
-                            resposta.forEach(publicacao => {
-                                var divPublicacao = document.createElement("div");
-                                divPublicacao.className = "publicacao";
-
-                                divPublicacao.innerHTML = `
-                                <span>ID: <b>${publicacao.idAviso}</b></span>
-                                <span>Título: <b>${publicacao.titulo}</b></span>
-                                <div>Descrição: <b>${publicacao.descricao}</b></div>
-                                <div class="div-buttons">
-                                    <button class="publicacao-btn-editar" onclick="editar(${publicacao.idAviso})">Editar</button>
-                                    <button class="publicacao-btn-deletar" onclick="deletar(${publicacao.idAviso})">Deletar</button>
-                                </div>
-                            `;
-                                feed.appendChild(divPublicacao);
-                            });
-                        });
-                    } else {
-                        alert('Erro ao carregar posts!');
-                    }
-                }).catch(function (erro) {
-                    console.error(erro);
-                });
-            }
+    var idUsuario = sessionStorage.getItem('ID_USUARIO');
+    
+    fetch(`/cards/listarPerfil/${idUsuario}`).then(function (resposta) {  // Ajuste a rota para "/cards"
+        if (resposta.ok) {
+            resposta.json().then(function (resposta) {
+                // Manipulação dos dados recebidos
+                console.log(resposta);
+                // Renderizar posts no HTML
+            });
+        } else {
+            alert('Erro ao carregar posts!');
+        }
+    }).catch(function (erro) {
+        console.error("Erro ao carregar posts:", erro);
+    });
+}
 
             function editar(idAviso) {
                 sessionStorage.ID_POSTAGEM_EDITANDO = idAviso;

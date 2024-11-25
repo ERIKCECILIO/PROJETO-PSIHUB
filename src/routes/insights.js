@@ -18,6 +18,9 @@ router.get("/listarAtividadePorHora", function (req, res) { // primeiro de tudo
     insightsController.publicacoesPorHoraGrafico(req, res);
 });
 
+router.get('/listarPerfil/:idUsuario', function (req, res) {
+    insightsController.listarPerfil(req, res);  // primeiro de tudo chame a função e o idUsuario da funcao em si
+});
 
 
 

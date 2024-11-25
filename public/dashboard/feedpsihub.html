@@ -194,15 +194,15 @@
                     for (let i = 0; i < resposta.length; i++) {
                         var publicacao = resposta[i];
 
-                        // criando e manipulando elementos do HTML via JavaScript
-                        var divPublicacao = document.createElement("div");
-                        var spanID = document.createElement("span");
-                        var spanTitulo = document.createElement("span");
-                        var spanNome = document.createElement("span");
-                        var divDescricao = document.createElement("div");
-                        var divButtons = document.createElement("div");
-                        var btnEditar = document.createElement("button");
-                        var btnDeletar = document.createElement("button");
+                        
+                        var divPublicacao = document.createElement("div"); // criando e manipulando elementos do HTML via JavaScript
+                        var spanID = document.createElement("span"); // criando e manipulando elementos do HTML via JavaScript
+                        var spanTitulo = document.createElement("span"); // criando e manipulando elementos do HTML via JavaScript
+                        var spanNome = document.createElement("span"); // criando e manipulando elementos do HTML via JavaScript
+                        var divDescricao = document.createElement("div"); // criando e manipulando elementos do HTML via JavaScript
+                        var divButtons = document.createElement("div"); // criando e manipulando elementos do HTML via JavaScript
+                        var btnEditar = document.createElement("button"); // criando e manipulando elementos do HTML via JavaScript
+                        var btnDeletar = document.createElement("button"); // criando e manipulando elementos do HTML via JavaScript
                        
 
 
@@ -229,14 +229,14 @@
                         btnDeletar.id = "btnDeletar" + publicacao.idAviso;
                         btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
 
-                        divPublicacao.appendChild(spanID);
-                        divPublicacao.appendChild(spanNome);
-                        divPublicacao.appendChild(spanTitulo);
-                        divPublicacao.appendChild(divDescricao);
-                        divPublicacao.appendChild(divButtons);
-                        divButtons.appendChild(btnEditar);
-                        divButtons.appendChild(btnDeletar);
-                        feed.appendChild(divPublicacao);
+                        divPublicacao.appendChild(spanID); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(spanNome); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(spanTitulo); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(divDescricao); //esquerda pai direita filho dom api nó
+                        divPublicacao.appendChild(divButtons); //esquerda pai direita filho dom api nó
+                        divButtons.appendChild(btnEditar); //esquerda pai direita filho dom api nó
+                        divButtons.appendChild(btnDeletar); //esquerda pai direita filho dom api nó
+                        feed.appendChild(divPublicacao); //esquerda pai direita filho dom api nó
                     }
 
                     finalizarAguardar();
