@@ -29,70 +29,69 @@
         </div>
     </div>
 
-    <!-- Simulador -->
     <div class="simulador">
         <div class="container">
 
-            <form id="personalityTestForm">
-                <div class="question">
-                    <label>1. Você prefere atividades em grupo ou individuais?</label><br>
-                    <input type="radio" name="q1" value="introvertido"> Individuais<br>
+            <form id="PerfildePersonalidade">
+                <div class="pergunta">
+                    <label>1. Você prefere atividades em grupo ou individuais?</label><br> 
+                    <input type="radio" name="q1" value="introvertido"> Individuais<br> 
                     <input type="radio" name="q1" value="extrovertido"> Em grupo<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>2. Como você lida com mudanças inesperadas?</label><br>
                     <input type="radio" name="q2" value="adaptavel"> Adapto-me facilmente<br>
                     <input type="radio" name="q2" value="inflexivel"> Prefiro evitar mudanças<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>3. Você gosta de assumir riscos?</label><br>
                     <input type="radio" name="q3" value="conservador"> Evito riscos<br>
                     <input type="radio" name="q3" value="ousado"> Gosto de desafios<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>4. Você prefere seguir planos ou improvisar?</label><br>
                     <input type="radio" name="q4" value="planejado"> Seguir planos<br>
                     <input type="radio" name="q4" value="improvisador"> Improvisar<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>5. Você se considera uma pessoa organizada?</label><br>
                     <input type="radio" name="q5" value="organizado"> Sim<br>
                     <input type="radio" name="q5" value="desorganizado"> Não<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>6. Como você reage a críticas?</label><br>
                     <input type="radio" name="q6" value="resiliente"> Aceito bem<br>
                     <input type="radio" name="q6" value="sensivel"> Sou sensível<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>7. Você é otimista ou pessimista?</label><br>
                     <input type="radio" name="q7" value="otimista"> Otimista<br>
                     <input type="radio" name="q7" value="pessimista"> Pessimista<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>8. Como você lida com tarefas repetitivas?</label><br>
                     <input type="radio" name="q8" value="paciente"> Com paciência<br>
                     <input type="radio" name="q8" value="impaciente"> Fico entediado<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>9. Prefere liderar ou seguir?</label><br>
                     <input type="radio" name="q9" value="lider"> Liderar<br>
                     <input type="radio" name="q9" value="seguidor"> Seguir<br>
                 </div>
-                <div class="question">
+                <div class="pergunta">
                     <label>10. Você se considera mais teórico ou prático?</label><br>
                     <input type="radio" name="q10" value="teorico"> Teórico<br>
                     <input type="radio" name="q10" value="pratico"> Prático<br>
                 </div>
 
-                <button type="button" id="submitBtn" class="botao" onclick="submitForm()"
+                <button type="button" id="MandarForm" class="botao" onclick="MandarForm()"
                     style="display:none;">Resultado</button>
             </form>
 
 
             <div id="dashboard" style="display:none;">
                 <h2>Resultados da Personalidade</h2>
-                <canvas id="personalityChart" width="400" height="400"></canvas>
+                <canvas id="personalidadeDashboard" width="400" height="400"></canvas>
                 <div class="cadastro">
                     Ainda não faz parte do PsiHub?<br>
                     <button class="botao" href=""><a href="cadastro_psihub.html">Cadastra-se</a></button>
@@ -110,36 +109,36 @@
     </div>
 
     <script>
-        let currentQuestion = 0;
+        var perguntaAtual = 0;
 
-        function showQuestion(index) {
-            const questions = document.querySelectorAll('.question');
-            questions.forEach((question, i) => {
-                question.style.display = i === index ? 'block' : 'none';
+        function mostrarPergunta(index) {
+            const perguntas = document.querySelectorAll('.pergunta');
+            perguntas.forEach((pergunta, i) => {
+                pergunta.style.display = i === index ? 'block' : 'none';
             });
 
             // Mostrar o botão "Enviar" somente na última pergunta
-            document.getElementById('submitBtn').style.display = (index === questions.length - 1) ? 'block' : 'none';
+            document.getElementById('enviarBtn').style.display = (index === perguntas.length - 1) ? 'block' : 'none';
         }
 
-        function nextQuestion() {
-            const questions = document.querySelectorAll('.question');
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
+        function proximaPergunta() {
+            const perguntas = document.querySelectorAll('.pergunta');
+            if (perguntaAtual < perguntas.length - 1) {
+                perguntaAtual++;
+                mostrarPergunta(perguntaAtual);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            showQuestion(currentQuestion);
-            const radios = document.querySelectorAll('input[type="radio"]');
+        document.addEventListener('DOMContentCarregando', () => { 
+            mostrarPergunta(perguntaAtual);
+            const radios = document.querySelectorAll('input[type="radio"]'); 
             radios.forEach(radio => {
-                radio.addEventListener('change', nextQuestion);
+                radio.addEventListener('mudar', proximaPergunta);
             });
         });
 
-        function submitForm() {
-            const answers = {
+        function MandarForm() {
+            const respostas = {
                 introvertido: 0, extrovertido: 0, adaptavel: 0, inflexivel: 0,
                 conservador: 0, ousado: 0, planejado: 0, improvisador: 0,
                 organizado: 0, desorganizado: 0, resiliente: 0, sensivel: 0,
@@ -147,20 +146,20 @@
                 lider: 0, seguidor: 0, teorico: 0, pratico: 0
             };
 
-            const formData = new FormData(document.getElementById('personalityTestForm'));
+            const formMemoria = new FormMemoria(document.getElementById('PerfildePersonalidade'));
 
-            formData.forEach((value) => {
-                answers[value]++;
+            FormMemoria.forEach((value) => {
+                respostas[value]++;
             });
 
-            const ctx = document.getElementById('personalityChart').getContext('2d');
+            const ctx = document.getElementById('personalidadeDashboard').getContext('2d');
             new Chart(ctx, {
-                type: 'radar',
+                type: 'radar', // QUERO TUDO NO ESTILO RADAR MEUS QUERIDOS!!!
                 data: {
-                    labels: Object.keys(answers),
+                    labels: Object.keys(respostas),
                     datasets: [{
                         label: 'Resultados do Teste de Personalidade',
-                        data: Object.values(answers),
+                        data: Object.values(respostas),
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -168,16 +167,16 @@
                 },
                 options: {
                     plugins: {
-                        legend: { // Corrigido: "labels" -> "legend"
+                        legend: { // Corrigido: de labels para legenda!!!
                             labels: {
-                                color: 'black' // Cor da legenda
+                                color: 'black' // Cor da legenda né pai senão ninguém consegue ler nesse fundo clarão
                             }
                         }
                     },
                     scales: {
                         r: {
                             angleLines: {
-                                color: 'purple' // Cor das linhas de ângulo
+                                color: 'purple' // Cor das linhas de angulares
                             },
                             grid: {
                                 color: 'grey' // Corzinha da grade da dashboard né pai
@@ -192,11 +191,11 @@
                             suggestedMax: 1 // Valor máximo sugerido
                         }
                     },
-                    responsive: true // Torna o gráfico responsivo
+                    responsive: true // Torna a dashboard responsiva no meio da tela babys
                 }
             });
 
-            document.getElementById('personalityTestForm').style.display = 'none';
+            document.getElementById('PerfildePersonalidade').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
         }
     </script>
