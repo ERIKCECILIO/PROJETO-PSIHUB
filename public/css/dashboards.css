@@ -159,31 +159,39 @@ button, .btn-nav, .btn-logout, .btn-chart {
 }
 
 /* Elementos dos gráficos */
-.graph {
-  width: 70%;
-  margin: auto;
-  padding-top: 10px;
+
+.dash-right {
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.tituloGraficos {
-  color: #d8d8d8;
+.row {
   display: flex;
   justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.chart-container {
-  margin-bottom: 30px;
-  padding: 20px;
-  background-color: #1e1e2f;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+.chart-container1,
+.chart-container3 {
+  flex: 1 1 45%; /* Definindo aqui a largura das 2 dashboards superiores */
+  max-width: 40%;
+  height: 300px;
+  padding: 10px;
 }
 
-.chart-container h2 {
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  color: #e0e0e0;
+.chart-container2 {
+  flex: 1 1 60%; /* Definindo aqui a largura da única dashboard inferior, espaçamento básico foi feito no próprio html através de <BR> */
+  max-width: 60%;
+  height: 300px;
+  margin-top: 20px;
+  padding: 10px;
 }
+
 
 /* Alertas e regua de parâmetros */
 .area-parametros-alerta {

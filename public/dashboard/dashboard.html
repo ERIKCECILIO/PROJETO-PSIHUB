@@ -23,7 +23,8 @@ label: 'Publicações',
     <div class="janela">
         <div class="header-left">
             <div id="logo">
-                <img src="/logo1.png" alt="logopsihub" width="200" height="200">            </div>
+                <img src="/logo1.png" alt="logopsihub" width="200" height="200">
+            </div>
             <div class="hello">
 
             </div>
@@ -39,28 +40,32 @@ label: 'Publicações',
 
         <div class="dash-right">
             <h1>Insights das Publicações</h1>
+          
+            <!-- Linha ÚNICA em formato ROW com as duas dashboards superiores -->
+            <div class="row">
+             <!-- Dashboard 1 -->
 
-
-
-            <!-- DASHBABOARD 1: Total de Publicações  -->
-
-            <div class="chart-container">
+              <div class="chart-container1">
                 <h2>Total de Publicações</h2>
                 <canvas id="chartTotalPublicacoes"></canvas>
-            </div>
-
-            <!-- DASHBABOARD 2: Publicações por Usuário -->
-            <div class="chart-container">
-                <h2>Publicações por Usuário</h2>
-                <canvas id="chartPorUsuario"></canvas>
-            </div>
-
-            <!-- DASHBABOARD 3: Atividade por Hora -->
-            <div class="chart-container">
+              </div>
+          
+              <!-- Dashboard 3 -->
+              <div class="chart-container3">
                 <h2>Atividade por Hora</h2>
                 <canvas id="chartPorHora"></canvas>
+              </div>
             </div>
-        </div>
+
+          <br><br>  <!-- quebra de linha manual para separar a dashboard única abaixo-->
+
+            <!-- Dashboard inferior -->
+            <div class="chart-container2">
+              <h2>Publicações por Usuário</h2>
+              <canvas id="chartPorUsuario"></canvas>
+            </div>
+          </div>
+          
     </div>
 
     <script>
@@ -71,34 +76,37 @@ label: 'Publicações',
 
         // ];
 
-        function totalPublicacoesGrafico() {  /////// criei a primeira dashboard aqui. E será responsável por criar a dashboard e buscar os dados necessários.
-           
-            const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d'); // Elemento DOM que acessa o elemento canvas com o ID chartTotalPublicacoes e têm o contexto render 2d
-            const chartTotal = new Chart(ctxTotal, { // referência ao contexto dashboard do canvas, preciso para desenhar a dashboard com o chartjs.
+        function totalPublicacoesGrafico() {
+            const ctxTotal = document.getElementById('chartTotalPublicacoes').getContext('2d');
+            const chartTotal = new Chart(ctxTotal, {
                 type: 'bar',
                 data: {
-                    labels: ['Novembro', 'Dezembro', 'Janeiro', 'Março'], // eixo x
-                    datasets: [{ // configurações dados dashboard
+                    labels: ['Novembro', 'Dezembro', 'Janeiro', 'Março'], // Eixo y agora
+                    datasets: [{
                         label: 'Publicações',
-                        data: [], // array vazio pois será preenchido de forma dinamica com os valores do vindos pela API
-                        borderColor: 'rgba(75, 192, 192, 1)', // cor da borda da dashboard 
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)' // cor das barras da dashboard
+                        data: [], // Preenchido dinamicamente
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)'
                     }]
                 },
+                options: {
+                    indexAxis: 'y', // Configuração para barras horizontais
+                }
             });
+        
 
 
-            // const endpoint="/insights/listarTotalPublicacoes"  usar caso eu queira mudar o meu endpoint de forma mais simples
-       fetch(`/insights/listarTotalPublicacoes`) // função assíncrona  // parametro de requisição que retorna a promise VINDA DIRETAMENTE DA ROUTE
-                .then(response => response.json()) //.then método que recebe o valor em response de retorno do fetch convertido fprmato json orientando o objeto de resposta
-                .then(resultado => { //segundo .then vai obter os dados do primeiro já convertidos em json
-                    console.log(`Dados recebidos do servidor:`, resultado); //teste de console
-                    // Preenchendo os labels e os dados para o gráfico
-                    resultado.forEach((item) => { // itera sobre cada item do array resultado e o item representa cada objeto dentro do array que a API retornou
-                        chartTotal.data.datasets[0].data.push(item.acertos); // adiciona o valor item.acertos ao array data 
-                        chartTotal.update(); // Atualize a dashboard com novos dados e garante que as barras sejam redesenhadas com os valores recebidos
-                    });
+        // const endpoint="/insights/listarTotalPublicacoes"  usar caso eu queira mudar o meu endpoint de forma mais simples
+        fetch(`/insights/listarTotalPublicacoes`) // função assíncrona  // parametro de requisição que retorna a promise VINDA DIRETAMENTE DA ROUTE
+            .then(response => response.json()) //.then método que recebe o valor em response de retorno do fetch convertido fprmato json orientando o objeto de resposta
+            .then(resultado => { //segundo .then vai obter os dados do primeiro já convertidos em json
+                console.log(`Dados recebidos do servidor:`, resultado); //teste de console
+                // Preenchendo os labels e os dados para o gráfico
+                resultado.forEach((item) => { // itera sobre cada item do array resultado e o item representa cada objeto dentro do array que a API retornou
+                    chartTotal.data.datasets[0].data.push(item.acertos); // adiciona o valor item.acertos ao array data 
+                    chartTotal.update(); // Atualize a dashboard com novos dados e garante que as barras sejam redesenhadas com os valores recebidos
                 });
+            });
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +116,7 @@ label: 'Publicações',
 
             /////// criei o segundo gráfico aqui
             const chartTotalPorUsuario = new Chart(ctxTotalPorUsuario, { // referência ao contexto dashboard do canvas, preciso para desenhar a dashboard com o chartjs.
-                type: 'polarArea',
+                type: 'doughnut', // doughnut é estilo rosca
                 data: {
                     labels: [],//vazio por enquanto aguardando os usuários do banco
                     datasets: [{
@@ -159,7 +167,7 @@ label: 'Publicações',
         }
 
         function publicacoesPorHoraGrafico() {
-            const ctxPorHora = document.getElementById('chartPorHora').getContext('2d'); 
+            const ctxPorHora = document.getElementById('chartPorHora').getContext('2d');
             /////// criei o terceiro gráfico aqui
             // Iniciando a dashboard com sua configuração inicial vazia aguardando os dados vindos do ForEach abaixo
             const chartPorHora = new Chart(ctxPorHora, { // Salvando a dashboard na variável constante 'chartTotal' dentro do canvas
